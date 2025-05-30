@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react"
-import './styles.css'
+import { useState } from "react"
 
 export default function RandomColor() {
   const [typeOfColor, setTypeOfColor] = useState('hex')
-  const [color, setColor] = useState('#000000')
+  const [color, setColor] = useState('#FF5733')
 
   function randomColorGenerator(length) {
     return Math.floor(Math.random() * length)
@@ -19,12 +18,61 @@ export default function RandomColor() {
       }
   
       setColor(hexColor)
+      setTypeOfColor('hex')
     } else {
       const r = randomColorGenerator(256)
       const g = randomColorGenerator(256)
       const b = randomColorGenerator(256)
 
       setColor(`rgb(${r}, ${g}, ${b})`)
+    }
+  }
+  
+  function transformToRgbUtils(value) {
+    if(value === 'F') {
+      return Number(value.replace('F', 15))
+    }
+    if(value === 'E') {
+      return Number(value.replace('E', 14))
+    }
+    if(value === 'D') {
+      return Number(value.replace('D', 13))
+    }
+    if(value === 'C') {
+      return Number(value.replace('C', 12))
+    }
+    if(value === 'B') {
+      return Number(value.replace('B', 11))
+    }
+    if(value === 'A') {
+      return Number(value.replace('A', 10))
+    }else {
+      return Number(value)
+    }
+  }
+
+  function handleTransformToRgb() {
+    if(color[0] !== '#') {
+      return
+    } else {
+      const r = transformToRgbUtils(color[1]) * 16 + transformToRgbUtils(color[2])
+      const g = transformToRgbUtils(color[3]) * 16 + transformToRgbUtils(color[4])
+      const b = transformToRgbUtils(color[5]) * 16 + transformToRgbUtils(color[6])
+
+      setColor(`rgb(${r}, ${g}, ${b})`)
+      setTypeOfColor('rgb')
+    }
+  }
+
+  function TransformToHexUtils(value) {
+
+  }
+
+  function handleTransformToHex(){
+    if(color[0] === '#') {
+      return
+    } else {
+      console.log(color)
     }
   }
 
@@ -34,8 +82,8 @@ export default function RandomColor() {
       height: '100vh',
       background: color,
     }}>
-      <button onClick={() => setTypeOfColor('hex')}>Create HEX Color</button>
-      <button onClick={() => setTypeOfColor('rgb')}>Create RGB Color</button>
+      <button onClick={handleTransformToHex}>Switch to HEX Color</button>
+      <button onClick={handleTransformToRgb}>Switch to RGB Color</button>
       <button onClick={handleCreateRandomColor}>Generate Random Color</button>
       <div style={{
         display: 'flex',
