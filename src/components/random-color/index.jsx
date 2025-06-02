@@ -2,7 +2,8 @@ import { useState } from "react"
 
 export default function RandomColor() {
   const [typeOfColor, setTypeOfColor] = useState('hex')
-  const [color, setColor] = useState('#FF5733')
+  const [color, setColor] = useState('#000000')
+  const [rgb, setRgb] = useState([])
 
   function randomColorGenerator(length) {
     return Math.floor(Math.random() * length)
@@ -25,6 +26,7 @@ export default function RandomColor() {
       const b = randomColorGenerator(256)
 
       setColor(`rgb(${r}, ${g}, ${b})`)
+      setRgb([r, g, b])
     }
   }
   
@@ -51,6 +53,29 @@ export default function RandomColor() {
     }
   }
 
+  function convertRgbToHex(value) {
+     if(value === '15') {
+      return value.replace('15', 'F')
+    }
+    if(value === '14') {
+      return value.replace('14', 'E')
+    }
+    if(value === '13') {
+      return value.replace('13', 'D')
+    }
+    if(value === '12') {
+      return value.replace('12', 'C')
+    }
+    if(value === '11') {
+      return value.replace('11', 'B')
+    }
+    if(value === '10') {
+      return value.replace('10', 'A')
+    }else {
+      return value
+    }
+  }
+
   function handleTransformToRgb() {
     if(color[0] !== '#') {
       return
@@ -60,19 +85,30 @@ export default function RandomColor() {
       const b = transformToRgbUtils(color[5]) * 16 + transformToRgbUtils(color[6])
 
       setColor(`rgb(${r}, ${g}, ${b})`)
-      setTypeOfColor('rgb')
+      setRgb([r, g, b])
+      setTypeOfColor(rgb)
     }
   }
 
   function TransformToHexUtils(value) {
-
+    if(value <= 15) {
+        return 0 + convertRgbToHex(value)
+      } else {
+        const hexCalc = convertRgbToHex(Math.floor(value / 16).toString()) + convertRgbToHex(Math.floor(value % 16).toString())
+        return hexCalc
+      }
   }
 
   function handleTransformToHex(){
     if(color[0] === '#') {
       return
     } else {
-      console.log(color)
+      let r = rgb[0]
+      let g = rgb[1]
+      let b = rgb[2]
+
+      setColor(`#${TransformToHexUtils(r)}${TransformToHexUtils(g)}${TransformToHexUtils(b)}`)
+      setTypeOfColor('hex')
     }
   }
 
