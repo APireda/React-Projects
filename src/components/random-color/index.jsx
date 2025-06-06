@@ -31,49 +31,29 @@ export default function RandomColor() {
   }
   
   function transformToRgbUtils(value) {
-    if(value === 'F') {
-      return Number(value.replace('F', 15))
+    const result = {
+      'F': 15,
+      'E': 14,
+      'D': 13,
+      'C': 12,
+      'B': 11,
+      'A': 10
     }
-    if(value === 'E') {
-      return Number(value.replace('E', 14))
-    }
-    if(value === 'D') {
-      return Number(value.replace('D', 13))
-    }
-    if(value === 'C') {
-      return Number(value.replace('C', 12))
-    }
-    if(value === 'B') {
-      return Number(value.replace('B', 11))
-    }
-    if(value === 'A') {
-      return Number(value.replace('A', 10))
-    }else {
-      return Number(value)
-    }
+
+    return result[value] || Number(value)
   }
 
-  function convertRgbToHex(value) {
-     if(value === '15') {
-      return value.replace('15', 'F')
+  function convertRgbToHex(value) {  
+    const result = {
+      15: 'F',
+      14: 'E',
+      13: 'D',
+      12: 'C',
+      11: 'B',
+      10: 'A'
     }
-    if(value === '14') {
-      return value.replace('14', 'E')
-    }
-    if(value === '13') {
-      return value.replace('13', 'D')
-    }
-    if(value === '12') {
-      return value.replace('12', 'C')
-    }
-    if(value === '11') {
-      return value.replace('11', 'B')
-    }
-    if(value === '10') {
-      return value.replace('10', 'A')
-    }else {
-      return value
-    }
+
+    return result[value] || value
   }
 
   function handleTransformToRgb() {
@@ -113,7 +93,7 @@ export default function RandomColor() {
   }
 
   return (
-    <div className="container" style={{
+    <div style={{
       width: '100vw',
       height: '100vh',
       background: color,
